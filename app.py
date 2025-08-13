@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from src.os_api import os_api_call
-from src.utils import get_properties_from_os, get_attributes_from_epc, set_missing_addresses, setting_void_properties
+from src.utils import get_properties_from_os, get_attributes_from_epc, setting_void_properties, get_addresses
 from src.variables import OS_KEY
 from src.council_data_utils import get_bbox_for_council_code, filter_properties_by_council_code
 
@@ -20,11 +20,11 @@ list_of_buildings = os_api_call(HEADERS, PARAMS)["features"]
 
 properties = get_properties_from_os(list_of_buildings)
 properties = filter_properties_by_council_code(elbmridge_council_code, properties)
+properties = get_addresses(properties)
 
 
 setting_void_properties(properties)
 for i in range(len(properties)):
-    # set_missing_addresses(properties[i])
     properties[i].calculate_score()
 
 

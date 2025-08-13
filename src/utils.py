@@ -1,5 +1,5 @@
 from src.property import Property
-from src.epc_api import epc_api_call
+from src.epc_api import epc_api_call, epc_api_call_address
 from src.variables import EPC_TOKEN
 from src.os_api import os_places_api_call
 
@@ -68,5 +68,27 @@ def filter_for_void(list_of_properties):
 
     return void_properties
 
+def get_addresses(properties):
+    uprns = [p.uprn for p in properties]
+    
+    uprn_to_address = {}
+    batch_size = 50
+    for i in range(0, len(uprns), batch_size):
+        batch = uprns[i:i+batch_size]
+        params = [("uprn",u) for u in batch]
+        response = epc_api_call_address(params)  
 
+        if not response:
+            break
+        
+        uprn_to_address_batch = {row["uprn"]: 
+                                 f"{row["address"]}, {row["county"]}, {row['postcode']}"
+                                 for row in response["rows"]}
+                                 
+        uprn_to_address.update(uprn_to_address_batch)
 
+    for p in properties:
+        if str(p.uprn) in uprn_to_address:
+            p.address = uprn_to_address[str(p.uprn)]
+
+    return properties
