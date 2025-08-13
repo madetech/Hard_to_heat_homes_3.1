@@ -18,11 +18,13 @@ class Property():
         self.lat = 0
         self.building_id = ''
         self.roof_shape = ""
-        self.roof_pitched_area = 0
-        self.roof_southeast_area = 0
+        self.roof_pitched_area_m2 = 0
+        self.roof_southeast_area_m2 = 0
         self.roof_solar_panel_presence = ''
         self.roof_material = ''
-        self.energy_usage = 'No Usage Found'
+        self.energy_usage = 'No Usage Found'   
+        self.height_relative_roof_base_m = 0
+        self.green_roof_presence = ''
 
     def calculate_score(self):
         score = 0

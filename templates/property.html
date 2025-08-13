@@ -39,7 +39,7 @@
                     <td class="govuk-table__cell">{{property.epc_score}}</td>
                   </tr>
                   <tr class="govuk-table__row">
-                    <th scope="row" class="govuk-table__header">Average Energy Consumption kWh/m2 (per year)</th>
+                    <th scope="row" class="govuk-table__header">Average Energy Consumption per year (kWh/m2)</th>
                     <td class="govuk-table__cell">{{property.energy_usage}}</td>
                   </tr>
                   <tr class="govuk-table__row">
@@ -51,21 +51,30 @@
                     <td class="govuk-table__cell">{{property.roof_shape}}</td>
                   </tr>
                   <tr class="govuk-table__row">
-                    <th scope="row" class="govuk-table__header">Roof Area (Pitched)</th>
-                    <td class="govuk-table__cell">{{property.roof_pitched_area}}</td>
+                    <th scope="row" class="govuk-table__header">Roof Material</th>
+                    <td class="govuk-table__cell">{{property.roof_material}}</td>
                   </tr>
                   <tr class="govuk-table__row">
-                    <th scope="row" class="govuk-table__header">Roof Area (Facing Southeast)</th>
-                    <td class="govuk-table__cell">{{property.roof_southeast_area}}</td>
+                    <th scope="row" class="govuk-table__header">Roof Height (m)</th>
+                    <td class="govuk-table__cell">{{property.height_relative_roof_base_m}}</td>
+                  </tr>  
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Roof Area, Pitched (m2)</th>
+                    <td class="govuk-table__cell">{{property.roof_pitched_area_m2}}</td>
+                  </tr>
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Roof Area, Facing Southeast (m2)</th>
+                    <td class="govuk-table__cell">{{property.roof_southeast_area_m2}}</td>
                   </tr>
                   <tr class="govuk-table__row">
                     <th scope="row" class="govuk-table__header">Solar Panel Presence</th>
                     <td class="govuk-table__cell">{{property.roof_solar_panel_presence}}</td>
                   </tr>
                   <tr class="govuk-table__row">
-                    <th scope="row" class="govuk-table__header">Roof Material</th>
-                    <td class="govuk-table__cell">{{property.roof_material}}</td>
+                    <th scope="row" class="govuk-table__header">Green Roof Presence</th>
+                    <td class="govuk-table__cell">{{property.green_roof_presence}}</td>
                   </tr>
+                  
                 </tbody>
               </table>
               

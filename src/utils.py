@@ -23,10 +23,12 @@ def get_properties_from_os(list_of_buildings):
             new_prop.lat = coordinates[1]
             new_prop.building_id = building["sitereference"][0]["buildingid"]
             new_prop.roof_shape = building["roofshapeaspect_shape"]
-            new_prop.roof_pitched_area = building['roofshapeaspect_areapitched_m2']
-            new_prop.roof_southeast_area = building["roofshapeaspect_areafacingsoutheast_m2"]
+            new_prop.roof_pitched_area_m2 = building['roofshapeaspect_areapitched_m2']
+            new_prop.roof_southeast_area_m2 = building["roofshapeaspect_areafacingsoutheast_m2"]
             new_prop.roof_solar_panel_presence = building["roofmaterial_solarpanelpresence"]
             new_prop.roof_material = building["roofmaterial_primarymaterial"]
+            new_prop.height_relative_roof_base_m = building["height_relativeroofbase_m"]
+            new_prop.green_roof_presence = building["roofmaterial_greenroofpresence"]
             list_of_properties.append(new_prop)
 
     return list_of_properties
