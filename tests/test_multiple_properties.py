@@ -25,7 +25,3 @@ def test_properties_have_desired_attributes():
     assert props[2].material == "Brick Or Block Or Stone"
     assert props[0].long == -0.3723468
     assert props[0].lat == 51.4059309
-
-def test_formatting_uprn_for_epc_call():
-    assert type(format_urpn_from_property(uprn)) is str
-    assert format_urpn_from_property(uprn) == "uprn=100061338652"

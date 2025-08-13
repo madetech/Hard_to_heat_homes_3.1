@@ -31,22 +31,6 @@ def get_properties_from_os(list_of_buildings):
 
     return list_of_properties
 
-
-def get_attributes_from_epc(prop, uprn):
-    epc_params = format_urpn_from_property(uprn)
-    epc_result = epc_api_call(
-        {"Accept": "application/json", "Authorization": f"Basic {EPC_TOKEN}"}, epc_params
-    )
-    if epc_result:
-        epc_data_by_uprn = {row["uprn"]: row for row in epc_result["rows"]}
-        row = epc_data_by_uprn.get(str(prop.uprn))
-        prop.epc_rating = row["current-energy-rating"]
-        prop.epc_score = row["current-energy-efficiency"]
-        prop.energy_usage = row["energy-consumption-current"]
-
-def format_urpn_from_property(uprn):
-    return f"uprn={uprn}"
-
 def set_missing_addresses(property):
     if not property.address:
         response = os_places_api_call(property.uprn)
@@ -68,10 +52,10 @@ def filter_for_void(list_of_properties):
 
     return void_properties
 
-def get_addresses(properties):
+def get_attributes_from_epc(properties):
     uprns = [p.uprn for p in properties]
     
-    uprn_to_address = {}
+    uprn_to_epc_data = {}
     batch_size = 50
     for i in range(0, len(uprns), batch_size):
         batch = uprns[i:i+batch_size]
@@ -82,13 +66,21 @@ def get_addresses(properties):
             break
         
         uprn_to_address_batch = {row["uprn"]: 
-                                 f"{row["address"]}, {row["county"]}, {row['postcode']}"
+                                {
+                                "address": f"{row["address"]}, {row["county"]}, {row['postcode']}",
+                                "rating": f"{row["current-energy-rating"]}",
+                                "score": f"{row["current-energy-efficiency"]}",
+                                "consumption": f"{row["energy-consumption-current"]}"
+                                }
                                  for row in response["rows"]}
-                                 
-        uprn_to_address.update(uprn_to_address_batch)
+                               
+        uprn_to_epc_data.update(uprn_to_address_batch)
 
     for p in properties:
-        if str(p.uprn) in uprn_to_address:
-            p.address = uprn_to_address[str(p.uprn)]
+        if str(p.uprn) in uprn_to_epc_data:
+            p.address = uprn_to_epc_data[str(p.uprn)]["address"]
+            p.epc_rating = uprn_to_epc_data[str(p.uprn)]["rating"]
+            p.epc_score = uprn_to_epc_data[str(p.uprn)]["score"]
+            p.energy_usage = uprn_to_epc_data[str(p.uprn)]["consumption"]
 
     return properties
