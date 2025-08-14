@@ -64,6 +64,8 @@ jobs:
         env:
           TF_VAR_epc_api_key: ${{ secrets.EPC_API_KEY }}
           TF_VAR_os_api_key: ${{ secrets.OS_API_KEY }}
+          TF_VAR_session_secret_key: ${{ secrets.SESSION_SECRET_KEY }}
+
         run: terraform plan
 
       - name: Terraform Apply
@@ -71,6 +73,7 @@ jobs:
         env:
           TF_VAR_epc_api_key: ${{ secrets.EPC_API_KEY }}
           TF_VAR_os_api_key: ${{ secrets.OS_API_KEY }}
+          TF_VAR_session_secret_key: ${{ secrets.SESSION_SECRET_KEY }}
 
         run: |
           terraform apply -auto-approve 
