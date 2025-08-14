@@ -5,8 +5,10 @@
 #heatmap-container img {
   margin-bottom: 30px;
   width: 100%;
-  max-width: 800px; 
+  max-width: 800px;
+  max-height: 350px;
   display: block;
+  margin-left: 10%;
 }
 
 #leaflet-container {

@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import io
 import base64
 from src.council_data_utils import get_formatted_bbox_for_council_code
+from data.coucil_code_to_council_name import council_code_to_council_name
 
 def load_consumption_data(bbox):
     data_frame = gpd.read_parquet(
@@ -39,14 +40,14 @@ def plot_heatmap(substations, title):
     substations.plot(
         ax=ax,
         column="total_consumption_active_import",
-        markersize=25,
+        markersize=5,
         legend=True,
         legend_kwds={"label": "Total consumption per substation (active import kWh)"}
     )
     ax.set_title(title)
     ax.set_axis_off()
     ax.set_facecolor("#1B2526")
-    cx.add_basemap(ax, crs=4326, source=cx.providers.CartoDB.DarkMatter, attribution=False)
+    cx.add_basemap(ax, crs=4326, source=cx.providers.CartoDB.Positron, attribution=False)
     return fig
 
 def generate_base64_image(fig):
@@ -60,5 +61,6 @@ def generate_heat_map(council_code):
     bbox = get_formatted_bbox_for_council_code(council_code)
     gdf = load_consumption_data(bbox)
     substations = aggregate_substation_data(gdf)
-    fig = plot_heatmap(substations, "Elmbridge's Energy Consumption at 7pm on 14th July 2024")
+    council_name = council_code_to_council_name[council_code]
+    fig = plot_heatmap(substations, f"{council_name}'s Energy Consumption at 7pm on 14th July 2024")
     return generate_base64_image(fig)

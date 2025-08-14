@@ -46,8 +46,7 @@ def set_property_data(council_code, council_bbox):
 
 @app.route("/home")
 def home():
-   global elbmridge_council_code
-   heat_map = generate_heat_map(elbmridge_council_code)
+   heat_map = generate_heat_map(session.get("council_code"))
    return render_template("home.html", properties=properties, key=OS_KEY, heat_map=heat_map)
 
 @app.route("/<int:uprn>")
