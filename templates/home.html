@@ -1,64 +1,90 @@
 {% extends "base.html" %}
 {% block content %}
 
-      <div class="govuk-grid-row">
-        <div>
-          <h1 class="govuk-heading-l">Hard to Heat Homes</h1>
-          <table class="govuk-table govuk-table--small-text-until-tablet" id="data">
-            <!-- <caption class="govuk-table__caption govuk-table__caption--m">sum(like_it_hot)</caption> -->
-            <thead class="govuk-table__head">
-              <tr class="govuk-table__row">
-                <th scope="col" class="govuk-table__header no-sort">Address</th> 
-                <!-- <th scope="col" class="govuk-table__header no-sort">Connectivity</th>
-                <th scope="col" class="govuk-table__header no-sort">Year</th>
-                <th scope="col" class="govuk-table__header no-sort">EPC Rating</th> -->
-                <th scope="col" class="govuk-table__header" title="Low 0-4 High">Hard To Heat Score: <br>(easy) 0  - 4 (hard)</th>
-                <!-- <th scope="col" class="govuk-table__header no-sort">Status</th> -->
-                <th scope="col" class="govuk-table__header no-sort"></th> 
-              </tr>
-            </thead>
-            <tbody class="govuk-table__body">
-              {% for prop in properties %}
-              <tr class="govuk-table__row">
-                <td scope="row" class="govuk-table__cell" id="{{prop.uprn}}">
-                  {% if prop.address  == "" %}
-                    <a onclick="setAddress('{{prop.uprn}}','{{prop.uprn}}', '{{key}}')" style="color:blue; text-decoration: underline">Click for address</a>
-                  {% else %}
-                    {{ prop.address }}
-                  {% endif %}
-                  </td>    
-                <!-- <td scope="row" class="govuk-table__cell">{{ prop.connectivity }}</td>
-                <td scope="row" class="govuk-table__cell">{{ prop.age }}</td>
-                <td scope="row" class="govuk-table__cell" style="text-align: center;">{{ prop.epc_rating }}</td> -->
-                <td scope="row" class="govuk-table__cell";>{{ prop.score }}</td>
-                <!-- <td scope="row" class="govuk-table__cell">{{ "Empty" if prop.void else "Occupied"}}</td> -->
-                <td score="row" class="govuk-table__cell" >
-                  <a class="govuk-button govuk-button--secondary" data-module="govuk-button" href="{{url_for('property', uprn=prop.uprn)}}" style="color:black; text-decoration: none">Details</a>
-                </td>     
-               </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+  <div class="govuk-grid-row">
+    <div>
+      <h1 class="govuk-heading-l">Hard to Heat Homes</h1>
+      <div class="map-container">
+  <div id="map"></div>
+  <div id="map-legend">
+    <strong>Hard to Heat Score</strong><br>
+    <img src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png" width="15"> Easy (1)<br>
+    <img src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-yellow.png" width="15"> 2<br>
+    <img src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-orange.png" width="15"> 3<br>
+    <img src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png" width="15"> Hard (4)
+  </div>
+      <table class="govuk-table govuk-table--small-text-until-tablet" id="data">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header no-sort">Address</th> 
+            <th scope="col" class="govuk-table__header" title="Low 0-4 High">Hard To Heat Score:<br>(easy) 0 - 4 (hard)</th>
+            <th scope="col" class="govuk-table__header no-sort">Details</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          {% for prop in properties %}
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell" id="{{ prop.uprn }}">
+              {% if not prop.address %}
+                <a onclick="setAddress('{{ prop.uprn }}','{{ prop.uprn }}', '{{ key }}')" style="color:blue; text-decoration: underline">Click for address</a>
+              {% else %}
+                {{ prop.address }}
+              {% endif %}
+            </td>
+            <td class="govuk-table__cell">{{ prop.score }}</td>
+            <td class="govuk-table__cell">
+              <a class="govuk-button govuk-button--secondary" href="{{ url_for('property', uprn=prop.uprn) }}" style="color:black; text-decoration:none">Details</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody> 
+      </table>
+    </div>
+  </div>
 
-          {% block scripts %}
-          <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-          <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
-          <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
-            <script defer>
-            $(document).ready(function (){
-              $("#data").DataTable({
-                "paging": true,
-                pageLength: 25,
-                "order": [],
-                "ordering": true,
-                columnDefs: [{
-                  orderable: false,
-                  targets: "no-sort"
-                }] 
-              });
-            })</script>
-          {% endblock %}
+  {% block scripts %}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js" crossorigin="anonymous"></script>
+  <script defer>
+    $(document).ready(function() {
+      $("#data").DataTable({
+        paging: true,
+        pageLength: 25,
+        order: [],
+        ordering: true,
+        columnDefs: [{
+          orderable: false,
+          targets: "no-sort"
+        }]
+      });
+    });
+  </script>
+<script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+  crossorigin=""></script>
+
+  <script>
+    const mapData = {
+        props: [
+            {% for p in properties %}
+            {
+                uprn: "{{ p.uprn }}",
+                lat: {{ p.lat }},
+                long: {{ p.long }},
+                score: {{ p.score if p.score is not none else 0 }},
+                address: "{{ p.address or '' }}"
+            }{% if not loop.last %},{% endif %}
+            {% endfor %}
+        ],
+        apiKey: "{{ key }}"
+    };
+</script>
+<script src="{{ url_for('static', filename='javascripts/hard_to_heat_map.js') }}"></script>
+
   {% endblock %}
+
+{% endblock %}
 
 
 
