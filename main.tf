@@ -23,12 +23,6 @@ variable "os_api_key" {
   sensitive   = true
 }
 
-variable "session_secret_key" {
-  description = "Session secret key for Flask"
-  type        = string
-  sensitive   = true
-}
-
 resource "tls_private_key" "ssh_key" {
   algorithm = "RSA"
   rsa_bits  = 4096
@@ -54,7 +48,6 @@ resource "aws_instance" "app_server" {
     instance_name = "hard-to-heat-homes-2.0"
     epc_api_key   = var.epc_api_key
     os_api_key    = var.os_api_key
-    session_secret_key  = var.session_secret_key
   })
 
 
@@ -62,3 +55,4 @@ resource "aws_instance" "app_server" {
     Name = "hard-to-heat-homes-2.0"
   }
 }
+
