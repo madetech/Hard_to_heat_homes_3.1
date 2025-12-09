@@ -91,5 +91,3 @@ def get_polygon_for_council_code(council_code):
             "coordinates": [latlon_coords]
         }
     return request_body
-
-_create_councils_data()
