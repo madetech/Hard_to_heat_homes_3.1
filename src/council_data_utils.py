@@ -2,11 +2,11 @@ import geopandas as gpd
 import pandas as pd
 import json
 from shapely.geometry import shape
-from src.epc_api import epc_api_call_address
+# from src.epc_api import epc_api_call_address
 
-with open("data/councils_bbox_data_DEMO.json") as bbox_json:
+with open("data/councils_data_DEMO.json") as bbox_json:
         councils_data = json.load(bbox_json)
-df = pd.read_csv("data/uprn_to_council_data_SE.csv", dtype={"UPRN": str, "COUNCIL_CODE": str})
+df = pd.read_csv("data/uprn_to_council_data_SE_DEMO.csv", dtype={"UPRN": str, "COUNCIL_CODE": str})
 
 #use dictionary for speed
 uprn_to_council_dict = pd.Series(df.COUNCIL_CODE.values, index=df.UPRN).to_dict()
@@ -63,12 +63,12 @@ def get_formatted_bbox_for_council_code(council_code):
 
 def _create_uprn_council_data():
      
-    data = pd.read_csv("data/ONSUD_NOV_2025_SW.csv",
-                        usecols=["UPRN", "LAD25CD"],
+    data = pd.read_csv("data/onsud_apr_2025/ONSUD_APR_2025_SE.csv",
+                        usecols=["UPRN", "LAD24CD"],
                         dtype={"UPRN": str}
     )
-    data = data.rename(columns={"LAD25CD": "COUNCIL_CODE"})
-    data.to_csv("data/uprn_to_council_data_SW.csv", index=False)
+    data = data.rename(columns={"LAD24CD": "COUNCIL_CODE"})
+    data.to_csv("data/uprn_to_council_SE.csv", index=False)
 
 def get_council_code_for_uprn(uprn):
     return uprn_to_council_dict.get(uprn)
@@ -91,3 +91,5 @@ def get_polygon_for_council_code(council_code):
             "coordinates": [latlon_coords]
         }
     return request_body
+
+_create_councils_data()
