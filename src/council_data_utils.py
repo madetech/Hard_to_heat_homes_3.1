@@ -16,7 +16,7 @@ def _create_councils_data():
 
     #convert coordinates to correct format
     gdf = gdf.to_crs("EPSG:4326")
-    target_council_codes = {"E07000207","E07000116","E07000085"}
+    target_council_codes = {"E07000207","E07000116","E07000085","E06000023"}
     gdf = gdf[gdf["Census_Code"].isin(target_council_codes)]
 
     councils_data = []
