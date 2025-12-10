@@ -42,8 +42,12 @@ class Property():
         return score
     
     def handle_age_string(self):
+        if self.age is None:
+            self.age = MINIMUM_FAILING_AGE
+
         if self.age == "Unknown":
             self.age = MINIMUM_FAILING_AGE
+            
         age_is_int = type(self.age) is int
         if not age_is_int:
             self.age = int(self.age[-4:])
