@@ -69,7 +69,7 @@ jobs:
         run: terraform plan -lock=false
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/HtHH-3.0-Liam'
         env:
           TF_VAR_epc_api_key: ${{ secrets.EPC_API_KEY }}
           TF_VAR_os_api_key: ${{ secrets.OS_API_KEY }}
