@@ -3,8 +3,8 @@ from src.variables import OS_BASE_URL, OS_KEY
 import requests
 
 
-def os_api_call(headers, params):
-    full_url = f"{OS_BASE_URL}{urlencode(params)}"
+def os_api_call(headers, params, offset=0):
+    full_url = f"{OS_BASE_URL}{urlencode(params, {"offset": offset})}"
     try:
         response = requests.get(full_url, headers=headers)
         data = response.json()
