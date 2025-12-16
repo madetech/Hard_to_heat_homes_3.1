@@ -33,20 +33,15 @@ def get_properties_from_os(list_of_buildings):
 
     return list_of_properties
 
-def setting_void_properties(list_of_properties):
-    for i in range(len(list_of_properties)):
-        if i %3 == 0:
-            list_of_properties[i].void = True
+# def filter_for_void(list_of_properties):
 
-def filter_for_void(list_of_properties):
+#     void_properties = []
 
-    void_properties = []
+#     for i in range(len(list_of_properties)):
+#         if list_of_properties[i].void == True:
+#             void_properties.append(list_of_properties[i])
 
-    for i in range(len(list_of_properties)):
-        if list_of_properties[i].void == True:
-            void_properties.append(list_of_properties[i])
-
-    return void_properties
+#     return void_properties
 
 def get_attributes_from_epc(properties):
     uprns = [p.uprn for p in properties]
