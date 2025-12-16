@@ -34,14 +34,14 @@ def test_not_200_response(mocker):
 
 
 def test_200_response(mock_os_api_response):
-    assert type(mock_os_api_response) is dict
+    assert type(mock_os_api_response) is list
 
 
 def test_features_array_is_populated(mock_os_api_response):
-    assert len(mock_os_api_response["features"]) > 0
+    assert len(mock_os_api_response[0]["features"]) > 0
 
 def test_one_building_accessing_desired_response_data(mock_os_api_response):
-    first_building = mock_os_api_response["features"][0]["properties"]
+    first_building = mock_os_api_response[0]["features"][0]["properties"]
     assert first_building["connectivity"] == "Semi-Connected"
     year = (
         first_building["buildingage_year"]
@@ -52,22 +52,22 @@ def test_one_building_accessing_desired_response_data(mock_os_api_response):
     assert first_building["constructionmaterial"] == "Brick Or Block Or Stone"
 
 def test_get_uprns_from_one_building(mock_os_api_response):
-    first_building = mock_os_api_response["features"][0]["properties"]
+    first_building = mock_os_api_response[0]["features"][0]["properties"]
     for i in range(len(first_building["uprnreference"])):
-        assert first_building["uprnreference"][i]['uprn'] == os_dummy_data["features"][0]["properties"]["uprnreference"][i]["uprn"]
+        assert first_building["uprnreference"][i]['uprn'] == os_dummy_data[0]["features"][0]["properties"]["uprnreference"][i]["uprn"]
 
 
 def test_accessing_desired_response_data_for_multiple_buildings(mock_os_api_response):
-    for i in range(len(mock_os_api_response["features"])):
-        response_building = mock_os_api_response["features"][i]["properties"]
-        response_building_coordinates = mock_os_api_response["features"][i]["geometry"]["coordinates"]
-        dummy_data_building = os_dummy_data["features"][i]["properties"]
+    for i in range(len(mock_os_api_response[0]["features"])):
+        response_building = mock_os_api_response[0]["features"][i]["properties"]
+        response_building_coordinates = mock_os_api_response[0]["features"][i]["geometry"]["coordinates"]
+        dummy_data_building = os_dummy_data[0]["features"][i]["properties"]
         
         year = "buildingage_year" if response_building["buildingage_year"] else "buildingage_period"
         assert response_building[year] == dummy_data_building[year]
         assert response_building["connectivity"] == dummy_data_building["connectivity"]
         assert response_building["constructionmaterial"] == dummy_data_building["constructionmaterial"]
-        assert response_building_coordinates[0] == os_dummy_data["features"][i]["geometry"]["coordinates"][0]
+        assert response_building_coordinates[0] == os_dummy_data[0]["features"][i]["geometry"]["coordinates"][0]
         for j in range(len(response_building["uprnreference"])):
             assert (
                 response_building["uprnreference"][j]["uprn"]

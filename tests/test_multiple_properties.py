@@ -5,7 +5,7 @@ import json
 with open("tests/test_data/os_dummy_data.json") as data:
     os_dummy_data = json.load(data)
     
-array_of_buildings = os_dummy_data["features"]
+array_of_buildings = os_dummy_data[0]["features"]
 props = get_properties_from_os(array_of_buildings)
 uprn = "100061338652"
 

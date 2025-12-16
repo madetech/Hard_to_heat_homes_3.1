@@ -48,6 +48,8 @@ def get_formatted_bbox_for_council_code(council_code):
         return False
 
 def filter_properties_by_council_code(council_code, properties):
+    if not council_code:
+        return []
 
     uprn_to_council_dict = load_uprn_to_council(council_code)
     return [

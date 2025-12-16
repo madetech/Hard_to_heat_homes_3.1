@@ -70,7 +70,7 @@ def test_get_properties_from_os_updates_property_data(mocker):
     mock_response = mock_get.return_value
     mock_response.json.return_value = os_dummy_data
 
-    buildings = os_api_call(OS_HEADERS, OS_PARAMS)["features"] #dummy data
+    buildings = os_api_call(OS_HEADERS, OS_PARAMS)[0]["features"] #dummy data
     properties = get_properties_from_os(buildings)
 
     dummy_building = buildings[0]["properties"]
