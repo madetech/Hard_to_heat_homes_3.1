@@ -15,3 +15,8 @@ bristol_bbox_string = str(bristol_bbox["minx"]) + str(bristol_bbox["miny"]) + st
         [(bristol_bbox_string, 0, 0), (bristol_bbox_string, 1, 100), (bristol_bbox_string, 2, 200)])
 def test_produce_list_returns_list_of_correct_length_based_on_pages(bbox, pages, expected_length):
     assert len(BuildingCollection(bbox, pages).produce_list()) == expected_length
+
+def test_list_items_are_dictionaries():
+    collection = BuildingCollection(bristol_bbox_string, 1).produce_list()
+    for item in collection:
+        assert type(item) == dict
