@@ -8,7 +8,7 @@ bristol_bbox = {
       "maxy": 51.54443273743301
     }
 
-bristol_bbox_string = str(bristol_bbox["minx"]) + str(bristol_bbox["miny"]) + str(bristol_bbox["maxx"]) + str(bristol_bbox["maxy"])    
+bristol_bbox_string = f"{str(bristol_bbox["minx"])}, {str(bristol_bbox["miny"])}, {str(bristol_bbox["maxx"])}, {str(bristol_bbox["maxy"])}"
 
 @pytest.mark.parametrize(
         "bbox, pages, expected_length",
