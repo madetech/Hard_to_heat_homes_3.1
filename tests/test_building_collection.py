@@ -20,3 +20,8 @@ def test_list_items_are_dictionaries():
     collection = BuildingCollection(bristol_bbox_string, 1).produce_list()
     for item in collection:
         assert type(item) == dict
+        
+def test_list_items_have_correct_keys():
+    collection = BuildingCollection(bristol_bbox_string, 1).produce_list()
+    for item in collection:
+        assert "id" and "type" and "geometry" and "properties" in item
