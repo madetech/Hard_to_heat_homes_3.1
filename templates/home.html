@@ -34,11 +34,11 @@
               {% for prop in properties %}
               <tr class="govuk-table__row">
                 <td class="govuk-table__cell" id="{{ prop.uprn }}">
-                  {% if not prop.address %}
-                    <a onclick="setAddress('{{ prop.uprn }}','{{ prop.uprn }}', '{{ key }}')" style="color:blue; text-decoration: underline">Click for address</a>
-                  {% else %}
+                  <!-- {% if not prop.address %}
+                     {{ skip }}
+                  {% else %} -->
                     {{ prop.address }}
-                  {% endif %}
+                  <!-- {% endif %} -->
                 </td>
                 <td class="govuk-table__cell">{{ prop.score }}</td>
                 <td class="govuk-table__cell">
