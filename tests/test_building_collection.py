@@ -1,4 +1,5 @@
 from src.building_collection import BuildingCollection
+import pytest
 
 bristol_bbox = {
       "minx": -3.117815916947311,
@@ -7,13 +8,10 @@ bristol_bbox = {
       "maxy": 51.54443273743301
     }
 
-bristol_bbox_string = str(bristol_bbox["minx"]) + str(bristol_bbox["miny"]) + str(bristol_bbox["maxx"]) + str(bristol_bbox["maxy"])
+bristol_bbox_string = str(bristol_bbox["minx"]) + str(bristol_bbox["miny"]) + str(bristol_bbox["maxx"]) + str(bristol_bbox["maxy"])    
 
-def test_produce_list_returns_an_empty_list_if_pages_is_0():
-    assert BuildingCollection(bristol_bbox_string, 0).produce_list() == []
-    
-def test_produce_list_returns_list_of_100_properties_if_pages_is_1():
-    assert len(BuildingCollection(bristol_bbox_string, 1).produce_list()) == 100
-    
-def test_produce_list_returns_list_of_200_properties_if_pages_is_2():
-    assert len(BuildingCollection(bristol_bbox_string, 2).produce_list()) == 200
+@pytest.mark.parametrize(
+        "bbox, pages, expected_length",
+        [(bristol_bbox_string, 0, 0), (bristol_bbox_string, 1, 100), (bristol_bbox_string, 2, 200)])
+def test_produce_list_returns_list_of_correct_length_based_on_pages(bbox, pages, expected_length):
+    assert len(BuildingCollection(bbox, pages).produce_list()) == expected_length
