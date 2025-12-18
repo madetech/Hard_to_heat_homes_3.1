@@ -34,7 +34,10 @@ def set_property_data(council_code, council_bbox):
     properties = get_properties_from_os(list_of_buildings)
     properties = filter_properties_by_council_code(council_code, properties)
     properties = get_attributes_from_epc(properties)
+<<<<<<< HEAD
     properties = remove_blank_addresses(properties)
+=======
+>>>>>>> 291fc29 (address matching via pandas)
 
     for i in range(len(properties)):
         properties[i].calculate_score()
@@ -43,12 +46,25 @@ def set_property_data(council_code, council_bbox):
 
     current_council_code = session.get("council_code")
 
+<<<<<<< HEAD
     if current_council_code == 'E07000116':
         target_csv_path = 'data/TEST_TUNBRIDGE_CCOD_DEC_2025.csv'
     elif current_council_code == 'E07000207':
         target_csv_path = 'data/TEST_ELMBRIDGE_CCOD_DEC_2025.csv'
     elif current_council_code == 'E07000085':
         target_csv_path = 'data/TEST_HAMPSHIRE_CCOD_DEC_2025.csv'
+=======
+    print('council code', current_council_code)
+
+    if current_council_code == 'E07000116':
+        target_csv_path = 'data/TEST_TUNBRIDGE_CCOD_DEC_2025.csv'
+    elif current_council_code == 'E07000207':
+        # target_csv_path = 'elmbridge'
+        pass
+    elif current_council_code == 'E07000085':
+        # target_csv_path = 'east hampshire'
+        pass
+>>>>>>> 291fc29 (address matching via pandas)
     elif current_council_code == 'E06000023':
         target_csv_path = 'data/TEST_BRISTOL_CCOD_MATCHES.csv'
     

@@ -81,14 +81,22 @@ def normalise_address(addr: str) -> str:
     addr = addr.lower()
 
     # removing county names to make matching more consistent
+<<<<<<< HEAD
     counties = ["kent", "tunbridge wells", "surrey", "east hampshire", "hampshire", 'bristol']
+=======
+    counties = ["kent", "tunbridge wells", "bristol"]
+>>>>>>> 291fc29 (address matching via pandas)
     
     for c in counties:
         # \b is word boundary e.g \bkent\b matches 'kent' but not 'kentish'
         addr = re.sub(rf"\b{c}\b", "", addr)
 
     # ^ (not) \w (alphanumeric) or \s (whitespace) in [] (group of characters)
+<<<<<<< HEAD
     # replace anything not alphanumeric or whitespace with ""
+=======
+    # re is python's regex library, replace anything not alphanumeric or whitespace with ""
+>>>>>>> 291fc29 (address matching via pandas)
     addr = re.sub(r"[^\w\s]", "", addr)
 
     return " ".join(addr.split())
@@ -96,6 +104,7 @@ def normalise_address(addr: str) -> str:
 def match_property_to_ccod(csv_path: str, property: property):
     df = pd.read_csv(csv_path)
 
+<<<<<<< HEAD
     df["__normalised_address"] = df["Property Address"].astype(str).apply(normalise_address)
 
     target = normalise_address(str(property.address))
@@ -110,3 +119,24 @@ def match_property_to_ccod(csv_path: str, property: property):
     property.set_company_registration_number(str(match.iloc[0]["Company Registration No. (1)"]))
     
     return
+=======
+    df["__norm_address"] = df["Property Address"].astype(str).apply(normalise_address)
+
+    target = normalise_address(str(property.address))
+    print('target', target)
+
+    match = df[df["__norm_address"] == target]
+
+    if match.empty:
+        return None
+
+    print('Property Address:', match.iloc[0]["Property Address"])
+    print('Tenure:', match.iloc[0]["Tenure"])
+    print('Owner Name:', match.iloc[0]["Proprietor Name (1)"])
+    property.set_owner_name(str(match.iloc[0]["Proprietor Name (1)"]))
+    print('owner on obj', property.owner_name)
+    print('Owner Type:', match.iloc[0]["Proprietorship Category (1)"])
+    print('Company No.:', match.iloc[0]["Company Registration No. (1)"])
+
+    return match.iloc[0]["Proprietor Name (1)"]
+>>>>>>> 291fc29 (address matching via pandas)
