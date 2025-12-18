@@ -94,7 +94,7 @@ def normalise_address(addr: str) -> str:
     return " ".join(addr.split())
 
 def match_property_to_ccod(csv_path: str, property: property):
-    df = pd.read_csv(csv_path)
+    df = pd.read_csv(csv_path, low_memory=False)
 
     df["__normalised_address"] = df["Property Address"].astype(str).apply(normalise_address)
 
