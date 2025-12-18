@@ -88,7 +88,7 @@ def normalise_address(addr: str) -> str:
         addr = re.sub(rf"\b{c}\b", "", addr)
 
     # ^ (not) \w (alphanumeric) or \s (whitespace) in [] (group of characters)
-    # re is python's regex library, replace anything not alphanumeric or whitespace with ""
+    # replace anything not alphanumeric or whitespace with ""
     addr = re.sub(r"[^\w\s]", "", addr)
 
     return " ".join(addr.split())
@@ -96,11 +96,11 @@ def normalise_address(addr: str) -> str:
 def match_property_to_ccod(csv_path: str, property: property):
     df = pd.read_csv(csv_path)
 
-    df["__norm_address"] = df["Property Address"].astype(str).apply(normalise_address)
+    df["__normalised_address"] = df["Property Address"].astype(str).apply(normalise_address)
 
     target = normalise_address(str(property.address))
 
-    match = df[df["__norm_address"] == target]
+    match = df[df["__normalised_address"] == target]
 
     if match.empty:
         return 

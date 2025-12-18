@@ -46,8 +46,6 @@ def set_property_data(council_code, council_bbox):
 
     current_council_code = session.get("council_code")
 
-    print('council code', current_council_code)
-
     if current_council_code == 'E07000116':
         target_csv_path = 'data/TEST_TUNBRIDGE_CCOD_DEC_2025.csv'
     elif current_council_code == 'E07000207':
