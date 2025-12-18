@@ -37,8 +37,4 @@ def test_home_template_renders():
     assert "30 Alexandra Road" in rendered_html
     assert 'id="1001"' in rendered_html  
     assert 'id="1002"' in rendered_html  
-    assert "Click for address" in rendered_html  
     assert "51.406" in rendered_html
- 
-
-

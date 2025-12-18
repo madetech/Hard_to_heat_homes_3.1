@@ -2,7 +2,7 @@ import os
 import sys
 from flask import Flask, render_template, request, redirect, url_for, session
 from src.os_api import os_api_call
-from src.utils import get_properties_from_os, get_attributes_from_epc
+from src.utils import get_properties_from_os, get_attributes_from_epc, remove_blank_addresses, match_property_to_ccod
 from src.variables import OS_KEY
 from src.council_data_utils import get_bbox_for_council_code, filter_properties_by_council_code
 from src.generate_heat_map import generate_heat_map
@@ -34,8 +34,26 @@ def set_property_data(council_code, council_bbox):
     properties = get_properties_from_os(list_of_buildings)
     properties = filter_properties_by_council_code(council_code, properties)
     properties = get_attributes_from_epc(properties)
+    properties = remove_blank_addresses(properties)
+
     for i in range(len(properties)):
         properties[i].calculate_score()
+
+    properties = remove_blank_addresses(properties)
+
+    current_council_code = session.get("council_code")
+
+    if current_council_code == 'E07000116':
+        target_csv_path = 'data/TEST_TUNBRIDGE_CCOD_DEC_2025.csv'
+    elif current_council_code == 'E07000207':
+        target_csv_path = 'data/TEST_ELMBRIDGE_CCOD_DEC_2025.csv'
+    elif current_council_code == 'E07000085':
+        target_csv_path = 'data/TEST_EAST_HAMPSHIRE_CCOD_DEC_2025.csv'
+    elif current_council_code == 'E06000023':
+        target_csv_path = 'data/TEST_BRISTOL_CCOD_MATCHES.csv'
+    
+    for prop in properties:
+        match_property_to_ccod(target_csv_path, prop)
     
     return
 

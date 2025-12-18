@@ -1,7 +1,9 @@
+import pandas as pd
+import re
 from src.property import Property
 from src.epc_api import epc_api_call, epc_api_call_address
 from src.variables import EPC_TOKEN
-from src.os_api import os_places_api_call
+# from src.os_api import os_places_api_call
 
 def get_properties_from_os(list_of_buildings):
     list_of_properties = []
@@ -65,3 +67,46 @@ def get_attributes_from_epc(properties):
             p.energy_usage = uprn_to_epc_data[str(p.uprn)]["consumption"]
 
     return properties
+
+def remove_blank_addresses(properties):
+    filtered_addresses = []
+    
+    for prop in properties:
+        if prop.address != "":
+            filtered_addresses.append(prop)
+
+    return filtered_addresses
+
+def normalise_address(addr: str) -> str:
+    addr = addr.lower()
+
+    # removing county names to make matching more consistent
+    counties = ["kent", "tunbridge wells", "surrey", "east hampshire", "hampshire", 'bristol']
+    
+    for c in counties:
+        # \b is word boundary e.g \bkent\b matches 'kent' but not 'kentish'
+        addr = re.sub(rf"\b{c}\b", "", addr)
+
+    # ^ (not) \w (alphanumeric) or \s (whitespace) in [] (group of characters)
+    # replace anything not alphanumeric or whitespace with ""
+    addr = re.sub(r"[^\w\s]", "", addr)
+
+    return " ".join(addr.split())
+
+def match_property_to_ccod(csv_path: str, property: property):
+    df = pd.read_csv(csv_path, low_memory=False)
+
+    df["__normalised_address"] = df["Property Address"].astype(str).apply(normalise_address)
+
+    target = normalise_address(str(property.address))
+
+    match = df[df["__normalised_address"] == target]
+
+    if match.empty:
+        return 
+    
+    property.set_owner_name(str(match.iloc[0]["Proprietor Name (1)"]))
+    property.set_owner_type(str(match.iloc[0]["Proprietorship Category (1)"]))
+    property.set_company_registration_number(str(match.iloc[0]["Company Registration No. (1)"]))
+    
+    return

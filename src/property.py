@@ -6,6 +6,9 @@ WARM_MATERIALS = ["Brick Or Block Or Stone", "Contrete"]
 class Property():
     def __init__(self, uprn):
         self.uprn = uprn
+        self.owner_name = 'Unknown'
+        self.owner_type = 'Unknown'
+        self.company_reg_number = 'Unknown'
         self.epc_rating = 'No Rating Found'
         self.epc_score = 'No Score Found'
         self.address = ''
@@ -51,3 +54,12 @@ class Property():
         age_is_int = type(self.age) is int
         if not age_is_int:
             self.age = int(self.age[-4:])
+
+    def set_owner_name(self, owner_name):
+        self.owner_name = owner_name
+
+    def set_owner_type(self, owner_type):
+        self.owner_type = owner_type
+
+    def set_company_registration_number(self, company_reg_num):
+        self.company_reg_num = company_reg_num

@@ -15,8 +15,8 @@
             <table class="govuk-table">
                 <tbody class="govuk-table__body">
                   <tr class="govuk-table__row">
-                        <th scope="row" class="govuk-table__header">UPRN</th>
-                        <td class="govuk-table__cell">{{property.uprn}}</td>
+                    <th scope="row" class="govuk-table__header">UPRN</th>
+                    <td class="govuk-table__cell">{{property.uprn}}</td>
                   </tr>
                   <tr class="govuk-table__row">
                     <th scope="row" class="govuk-table__header">Connectivity</th>
@@ -74,7 +74,22 @@
                     <th scope="row" class="govuk-table__header">Green Roof Presence</th>
                     <td class="govuk-table__cell">{{property.green_roof_presence}}</td>
                   </tr>
-                  
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Proprietor Name:</th>
+                    <td class="govuk-table__cell">{{property.owner_name}}</td>
+                  </tr>
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Proprietor Type</th>
+                    <td class="govuk-table__cell">{{property.owner_type}}</td>
+                  </tr>
+                  {% if property.company_reg_num is defined %}
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Company Number:</th>
+                    <td class="govuk-table__cell">
+                      <a href="https://find-and-update.company-information.service.gov.uk/company/{{property.company_reg_num}}">{{property.company_reg_num}}</a>
+                    </td>
+                  </tr>
+                  {% endif %}
                 </tbody>
               </table>
               
