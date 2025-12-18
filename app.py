@@ -39,8 +39,6 @@ def set_property_data(council_code, council_bbox):
     for i in range(len(properties)):
         properties[i].calculate_score()
 
-    properties = remove_blank_addresses(properties)
-
     current_council_code = session.get("council_code")
 
     if current_council_code == 'E07000116':
