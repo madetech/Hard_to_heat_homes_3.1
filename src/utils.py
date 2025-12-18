@@ -1,3 +1,5 @@
+import pandas as pd
+import re
 from src.property import Property
 from src.epc_api import epc_api_call, epc_api_call_address
 from src.variables import EPC_TOKEN
@@ -68,7 +70,48 @@ def get_attributes_from_epc(properties):
 
 def remove_blank_addresses(properties):
     filtered_addresses = []
+    
     for prop in properties:
         if prop.address != "":
             filtered_addresses.append(prop)
+
     return filtered_addresses
+
+def normalise_address(addr: str) -> str:
+    addr = addr.lower()
+
+    # removing county names to make matching more consistent
+    counties = ["kent", "tunbridge wells", "bristol"]
+    
+    for c in counties:
+        # \b is word boundary e.g \bkent\b matches 'kent' but not 'kentish'
+        addr = re.sub(rf"\b{c}\b", "", addr)
+
+    # ^ (not) \w (alphanumeric) or \s (whitespace) in [] (group of characters)
+    # re is python's regex library, replace anything not alphanumeric or whitespace with ""
+    addr = re.sub(r"[^\w\s]", "", addr)
+
+    return " ".join(addr.split())
+
+def match_property_to_ccod(csv_path: str, property: property):
+    df = pd.read_csv(csv_path)
+
+    df["__norm_address"] = df["Property Address"].astype(str).apply(normalise_address)
+
+    target = normalise_address(str(property.address))
+    print('target', target)
+
+    match = df[df["__norm_address"] == target]
+
+    if match.empty:
+        return None
+
+    print('Property Address:', match.iloc[0]["Property Address"])
+    print('Tenure:', match.iloc[0]["Tenure"])
+    print('Owner Name:', match.iloc[0]["Proprietor Name (1)"])
+    property.set_owner_name(str(match.iloc[0]["Proprietor Name (1)"]))
+    print('owner on obj', property.owner_name)
+    print('Owner Type:', match.iloc[0]["Proprietorship Category (1)"])
+    print('Company No.:', match.iloc[0]["Company Registration No. (1)"])
+
+    return match.iloc[0]["Proprietor Name (1)"]
