@@ -39,16 +39,7 @@ def set_property_data(council_code, council_bbox):
     for i in range(len(properties)):
         properties[i].calculate_score()
 
-    current_council_code = session.get("council_code")
-
-    if current_council_code == 'E07000116':
-        target_csv_path = 'data/TEST_TUNBRIDGE_CCOD_DEC_2025.csv'
-    elif current_council_code == 'E07000207':
-        target_csv_path = 'data/TEST_ELMBRIDGE_CCOD_DEC_2025.csv'
-    elif current_council_code == 'E07000085':
-        target_csv_path = 'data/TEST_EAST_HAMPSHIRE_CCOD_DEC_2025.csv'
-    elif current_council_code == 'E06000023':
-        target_csv_path = 'data/TEST_BRISTOL_CCOD_DEC_2025.csv'
+    target_csv_path = 'data/TEST_BRISTOL_CCOD_DEC_2025.csv'
     
     for prop in properties:
         match_property_to_ccod(target_csv_path, prop)

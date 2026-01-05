@@ -14,8 +14,8 @@ in your project directory as the value
 
 COUNCIL_CSV_MAP = {
 
-    "E06000023": "data/uprn_to_council_SW.csv",   # Bristol
-    "default": "data/uprn_to_council_data_SE_DEMO.csv" # South East Data Set
+    "E06000023": "data/uprn_to_council_SW.csv"  # Bristol
+    
 }
 
 def load_uprn_to_council(council_code):
@@ -24,7 +24,7 @@ def load_uprn_to_council(council_code):
     Defaults to SE unless user selects Bristol.
 
     """
-    csv_file = COUNCIL_CSV_MAP.get(council_code, COUNCIL_CSV_MAP["default"])
+    csv_file = COUNCIL_CSV_MAP.get(council_code)
     df = pd.read_csv(csv_file, dtype={"UPRN": str, "COUNCIL_CODE": str})
     return pd.Series(df.COUNCIL_CODE.values, index=df.UPRN).to_dict()
 
@@ -73,44 +73,3 @@ def get_polygon_for_council_code(council_code):
             "coordinates": [latlon_coords]
         }
     return request_body
-
-def _create_councils_data():
-    gdf = gpd.read_file("data/bdline_gpkg_gb/Data/bdline_gb.gpkg", layer = "district_borough_unitary")
-
-    #convert coordinates to correct format
-    gdf = gdf.to_crs("EPSG:4326")
-    target_council_codes = {"E07000207","E07000116","E07000085","E06000023"}
-    gdf = gdf[gdf["Census_Code"].isin(target_council_codes)]
-
-    councils_data = []
-    for _, row in gdf.iterrows():
-          
-        name = row["Name"]
-        census_code = row["Census_Code"]
-        bounds = row.geometry.bounds
-        bbox = {
-                "minx": bounds[0],
-                "miny": bounds[1],
-                "maxx": bounds[2],
-                "maxy": bounds[3]
-        }
-        geometry = row.geometry.__geo_interface__
-
-        councils_data.append({
-            "name": name,
-            "census_code": census_code,
-            "bbox": bbox,
-            "geometry": geometry
-        })
-    
-    with open("data/councils_bbox_data_DEMO.json", "w") as f:
-        json.dump(councils_data, f, indent=2)
-
-def _create_uprn_council_data():
-     
-    data = pd.read_csv("data/ONSUD_NOV_2025_SW.csv",
-                        usecols=["UPRN", "LAD25CD"],
-                        dtype={"UPRN": str}
-    )
-    data = data.rename(columns={"LAD25CD": "COUNCIL_CODE"})
-    data.to_csv("data/uprn_to_council_SW.csv", index=False)

@@ -1,9 +1,9 @@
 import pandas as pd
 import re
 from src.property import Property
-from src.epc_api import epc_api_call, epc_api_call_address
+from src.epc_api import epc_api_call_address
 from src.variables import EPC_TOKEN
-# from src.os_api import os_places_api_call
+
 
 def get_properties_from_os(list_of_buildings):
     list_of_properties = []
