@@ -10,7 +10,7 @@ function initMap() {
         attribution: "&copy; OpenStreetMap",
     }).addTo(map);
 
-fetch('/static/data/exeter_postcodes_with_epc.json')
+fetch('/static/data/exeter_postcodes_shapefile_2.json')
   .then(response => response.json())
   .then(data => {
     L.geoJSON(data, {
