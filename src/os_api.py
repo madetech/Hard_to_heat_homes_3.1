@@ -4,7 +4,7 @@ import requests
 
 
 def os_api_call(headers, params, offset=0):
-    full_url = f"{OS_BASE_URL}{urlencode(params, {"offset": offset})}"
+    full_url = f"{OS_BASE_URL}{urlencode(params, {'offset': offset})}"
     try:
         response = requests.get(full_url, headers=headers)
         data = response.json()
