@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
+    <div class="govuk-width-container" >
     <div class="govuk-grid-row">
-    <div>
       <h1 class="govuk-heading-l">Hard to Heat Homes</h1>
       <button id="toggle-map" class="govuk-button">Show HeatMap</button>
     <div id="leaflet-container">
@@ -22,28 +22,6 @@
       {% endif %}
     </div>
           </div>
-          <table class="govuk-table govuk-table--small-text-until-tablet" id="data">
-            <thead class="govuk-table__head">
-              <tr class="govuk-table__row">
-                <th scope="col" class="govuk-table__header no-sort">Address</th> 
-                <th scope="col" class="govuk-table__header" title="Low 0-4 High">Hard To Heat Score:<br>(easy) 0 - 4 (hard)</th>
-                <th scope="col" class="govuk-table__header no-sort">Details</th>
-              </tr>
-            </thead>
-            <tbody class="govuk-table__body">
-              {% for prop in properties %}
-              <tr class="govuk-table__row">
-                <td class="govuk-table__cell" id="{{ prop.uprn }}">
-                    {{ prop.address }}
-                </td>
-                <td class="govuk-table__cell">{{ prop.score }}</td>
-                <td class="govuk-table__cell">
-                  <a class="govuk-button govuk-button--secondary" href="{{ url_for('property', uprn=prop.uprn) }}" style="color:black; text-decoration:none">Details</a>
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody> 
-          </table>
         </div>
       </div>
 
