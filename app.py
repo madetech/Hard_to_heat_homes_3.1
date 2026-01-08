@@ -1,7 +1,5 @@
 import os
-import sys
 from flask import Flask, render_template, request, redirect, url_for, session
-from src.os_api import os_api_call
 from src.utils import get_properties_from_os, get_attributes_from_epc, remove_blank_addresses, match_property_to_ccod
 from src.variables import OS_KEY
 from src.council_data_utils import get_bbox_for_council_code, filter_properties_by_council_code

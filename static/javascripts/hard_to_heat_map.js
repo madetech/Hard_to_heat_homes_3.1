@@ -10,32 +10,44 @@ function initMap() {
         attribution: "&copy; OpenStreetMap",
     }).addTo(map);
 
-    fetch("/static/data/exeter_postcodes_with_epc.json")
+    fetch("static/data/bristol_usrn_polygons.json")
         .then((response) => response.json())
         .then((data) => {
             L.geoJSON(data, {
                 style: function(feature) {
-                    switch (feature.properties.epc_score) {
-                        case "50": return {
-                    color: "#3cff00ff",
-                    weight: 2,
-                    }
-                        case undefined: return {
-                    color: "#ff7800",
-                    weight: 2,
-                    }
-                    }
-                },
+                    switch (feature.properties.average_epc_score) {
+                        case 61: 
+                            return {
+                                color: "#1bb558",
+                                weight: 2,
+                            }
+                        case 70: 
+                            return {
+                                color: "#fcaa64",
+                                weight: 2,
+                            }
+                        case null: 
+                            return {
+                                color: "#9b9b9bd0",
+                                weight: 2,
+                            }
+                        }
+                    },
                 onEachFeature: function (feature, layer) {
-                    epc = feature.properties.epc_score
-                        ? feature.properties.epc_score
+                    epc_score = feature.properties.average_epc_score
+                        ? feature.properties.average_epc_score
                         : "unknown";
                     layer.bindPopup(
+                        "Number of buildings: 30" +
+                            "<br>" +
+                        "Address: " +
+                            feature.properties.address +
+                            "<br>" +
                         "Postcode: " +
                             feature.properties.postcode +
                             "<br>" +
-                            "Average EPC Score: " +
-                            epc
+                        "Average EPC Score: " +
+                            epc_score
                     );
                 },
             }).addTo(map);
