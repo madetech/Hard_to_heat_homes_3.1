@@ -12,17 +12,12 @@ properties = []
 
 app.secret_key = os.getenv("SESSION_SECRET_KEY")
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/")
 def login():
-    if request.method == "POST":
-        current_council_code = session.get("council_code")
-        new_council_code = request.form.get("council")
-        if current_council_code != new_council_code:
-            session["council_code"] = new_council_code
-            council_bbox = get_bbox_for_council_code(new_council_code)
-            set_property_data(new_council_code, council_bbox)
-        return redirect(url_for("home"))
-    return render_template("login.html")
+    council_code = "E06000023"
+    council_bbox = get_bbox_for_council_code(council_code)
+    return set_property_data(council_code, council_bbox)
+
 
 def set_property_data(council_code, council_bbox):
     
@@ -42,15 +37,6 @@ def set_property_data(council_code, council_bbox):
     for prop in properties:
         match_property_to_ccod(target_csv_path, prop)
     
-    return
-
-@app.route("/home")
-def home():
-    council_code = session.get("council_code")
-    if council_code and not properties:
-        council_bbox = get_bbox_for_council_code(council_code)
-        set_property_data(council_code, council_bbox)
-
     heat_map = generate_heat_map(council_code)
     return render_template("home.html", properties=properties, key=OS_KEY, heat_map=heat_map)
 
