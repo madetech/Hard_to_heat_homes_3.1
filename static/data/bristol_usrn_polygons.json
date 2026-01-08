@@ -1,0 +1,23 @@
+{"type":"FeatureCollection", "features": [
+{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[
+[-2.584201,51.463740],
+[-2.584813,51.464223],
+[-2.584169,51.464525],
+[-2.583598,51.464093]
+]]},"properties":{"fid":null,"address": "Denbigh Street", "postcode":"BS2 8XG", "average_epc_score": 61}},
+{"type":"Feature","geometry":{"type":"Polygon",
+"coordinates":[[
+[-2.584834,51.463372],
+[-2.585518,51.463890],
+[-2.584813,51.464223],
+[-2.584201,51.463740]
+]]},
+"properties":{"fid":null,"address": "Campbell Street", "postcode":"BS2 8XE", "average_epc_score": 70}},
+{"type":"Feature","geometry":{"type":"Polygon",
+"coordinates":[[
+[-2.584834,51.463372],
+[-2.585277,51.463027],
+[-2.586105,51.463588],
+[-2.585518,51.463890]
+]]},
+"properties":{"fid":null,"address": "Brighton Street", "postcode":"BS2 8XA", "average_epc_score": null}}]}
