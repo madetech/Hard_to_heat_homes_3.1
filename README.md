@@ -34,7 +34,7 @@ OS_API_KEY
 #### Data Setup Instructions
 - To run the processing scripts, you need to manually "side-load" the raw data:
 
-- Download the Raw Data: Obtain the bristol_buildings.geojson (129MB) from [Insert your Google Drive/Dropbox/Source Link Here].
+- Download the Raw Data: Obtain the bristol_buildings.geojson (129MB) from https://drive.google.com/file/d/1gwZ0wL4qE83T-DBMnuYfWhkGKs-5-Puo/view?usp=drive_link.
 
 - Place the File: Move the downloaded file into the data/ directory of this project.
 
