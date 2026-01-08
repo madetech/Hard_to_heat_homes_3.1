@@ -142,32 +142,32 @@ function initMap() {
     const markersPositions = [];
 
     for (const prop of mapData.props) {
+
+        const score = Number.isInteger(prop.score) ? prop.score : null;
+
         const marker = L.marker([prop.lat, prop.long], {
-            icon: scoreIcons[prop.score] || scoreIcons[1],
+            icon: score ? scoreIcons[score] : scoreIcons[1],
         }).addTo(map);
 
         markersDict[prop.uprn] = marker;
 
         marker.on("mouseover", function () {
-            marker.setIcon(scoreIconsHover[prop.score]);
+            if (score) marker.setIcon(scoreIconsHover[prop.score]);
         });
 
         marker.on("mouseout", function () {
-            marker.setIcon(scoreIcons[prop.score]);
+           if (score) marker.setIcon(scoreIcons[prop.score]);
         });
 
         marker.on("click", async () => {
-            const address = await getAddressFromPlacesAPI(
-                prop.uprn,
-                mapData.apiKey
-            );
+            const address = prop.address
 
             const popupContent = `
             <div class="custom-popup">
                 <a href="/${prop.uprn}">
                       ${address} 
                 </a>
-                <p class="score-box"> Hard to Heat Score: ${prop.score}</p>
+                ${score !== null ? `<p class="score-box">Hard to Heat Score: ${score}</p>` : ""}
             </div>
             `;
             marker.bindPopup(popupContent).openPopup();
