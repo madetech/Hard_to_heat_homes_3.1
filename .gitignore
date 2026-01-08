@@ -16,5 +16,8 @@ instance/
 .vscode/
 .idea/
 
-# Optional: cache folders
+# cache folders
 cache/
+
+# Ignore large data file 129mb will not load to github
+data/bristol_buildings.geojson
