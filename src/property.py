@@ -61,7 +61,7 @@ class Property():
         """
         
         # 1. Handle Missing or Invalid Scores
-        # If epc_score is None, 'No Score Found', or 0, default to high risk
+        # If epc_score is None, 'No Score Found', or 0, default to neutral
         if not self.epc_score or self.epc_score == 'No Score Found':
             self.score = 0
             return self.score
