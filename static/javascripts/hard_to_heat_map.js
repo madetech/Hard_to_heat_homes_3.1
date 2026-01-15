@@ -1,12 +1,12 @@
 let map;
 
 function getColorForScore(score) {
-    if (score >= 3.5) return "#dc3545"; // Red
-    if (score >= 2.5) return "#fd7e14"; // Orange
-    if (score >= 1.5) return "#fcaa64"; // Yellow
-    if (score >= 1.0) return "#1bb558"; // Green (Only for actual scores 1-1.49)
+    if (score >= 3.5) return "#dc3545";
+    if (score >= 2.5) return "#fd7e14";
+    if (score >= 1.5) return "#fcaa64";
+    if (score >= 1.0) return "#1bb558";
     
-    return "#9b9b9bd0";                 // Grey (For 0 / No Data)
+    return "#9b9b9bd0";
 }
 
 // Fallback Logic 
