@@ -45,13 +45,13 @@
 <script>
   const mapData = {
     props: [
-      {% for p in properties %}
+      {% for property in properties %}
   {
-    uprn: "{{ p.uprn }}",
-      lat: { { p.lat } },
-    long: { { p.long } },
-    score: { { p.score if p.score is not none else 0 } },
-    address: "{{ p.address or '' }}"
+    uprn: "{{ property.uprn }}",
+      lat: { { property.lat } },
+    long: { { property.long } },
+    score: { { property.score if property.score is not none else 0 } },
+    address: "{{ property.address or '' }}"
   } {% if not loop.last %}, {% endif %}
   {% endfor %}
         ],
