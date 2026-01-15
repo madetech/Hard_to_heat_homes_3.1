@@ -1,13 +1,12 @@
 import geopandas as gpd
 from pathlib import Path
 
-# --- CONFIGURATION ---
+
 input_file= Path("data/bristol_buildings.geojson")
 output_file = Path("data/bristol_streets_grouped.geojson")
-# ----------------------------------------------
+
 
 def group_buildings_by_street(in_path, out_path):
-    # Check if the input file actually exists
     if not Path(in_path).exists():
         print(f"Error: Could not find the file '{in_path}' in this folder.")
         return
@@ -15,7 +14,6 @@ def group_buildings_by_street(in_path, out_path):
     print(f"Reading {in_path}...")
     gdf = gpd.read_file(in_path)
     
-    # Check if the column exists to avoid a crash
     if 'addr:street' not in gdf.columns:
         print("Error: The column 'addr:street' was not found in the GeoJSON.")
         print(f"Available columns: {list(gdf.columns)}")
@@ -23,7 +21,6 @@ def group_buildings_by_street(in_path, out_path):
 
     print(f"Merging {len(gdf)} buildings into street clusters...")
     
-    # dissolve merges the shapes based on the street name
     street_clusters = gdf.dissolve(by='addr:street', as_index=False)
     
     print(f"Saving to {out_path}...")
