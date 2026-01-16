@@ -1,4 +1,4 @@
-<!-- README -->
+<!-- READ this please -->
 
 This was built using Python 3.9
 If you are having issues with SSL certifications try using Python 3.9 or updating ssl certificates,
