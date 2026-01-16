@@ -1,3 +1,5 @@
+<!-- README -->
+
 This was built using Python 3.9
 If you are having issues with SSL certifications try using Python 3.9 or updating ssl certificates,
 If you are still experiencing issues try using in a python 3.9 virtual environment.
